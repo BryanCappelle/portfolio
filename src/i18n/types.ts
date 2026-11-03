@@ -13,6 +13,19 @@ export type Translation = {
     playMusic: string;
     stopMusic: string;
     language: string;
+    contactForm: {
+      title: string;
+      subject: string;
+      subjectPlaceholder: string;
+      subjectOptions: string[];
+      email: string;
+      message: string;
+      send: string;
+      sending: string;
+      success: string;
+      error: string;
+      close: string;
+    };
   };
   owner: {
     role: string;

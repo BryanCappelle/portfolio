@@ -31,6 +31,7 @@ export default function LlamaStage() {
   const bubbleRef = useRef<HTMLDivElement | null>(null);
 
   const [introFinished, setIntroFinished] = useState(false);
+  const [contactOpen, setContactOpen] = useState(false);
 
   const llamaCurve = useMemo(createLlamaCurve, []);
   const winkCurve = useMemo(createWinkCurve, []);
@@ -56,6 +57,16 @@ export default function LlamaStage() {
   };
 
   const markIntroFinished = useCallback(() => setIntroFinished(true), []);
+  const handleChoose = useCallback(
+    (choice: Parameters<typeof dialogue.choose>[0]) => {
+      if (choice.action === "openContactForm") {
+        setContactOpen(true);
+        return;
+      }
+      dialogue.choose(choice);
+    },
+    [dialogue],
+  );
 
   return (
     <div className="llama-stage" onPointerMove={handlePointerMove}>
@@ -77,9 +88,11 @@ export default function LlamaStage() {
         node={dialogue.node}
         visible={bubbleVisible}
         volume={speech.effectiveVolume}
-        onChoose={dialogue.choose}
+        onChoose={handleChoose}
         onClose={dialogue.close}
         onMusicToggle={music.toggle}
+        contactOpen={contactOpen}
+        onContactClose={() => setContactOpen(false)}
       />
 
       {introFinished && !dialogue.isOpen && (

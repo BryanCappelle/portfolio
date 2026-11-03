@@ -6,6 +6,7 @@ import { useLlamaVoice } from "../voice/useLlamaVoice";
 import { llama as llamaProfile } from "../dialogue/profile";
 import { ArrowUpRightIcon, CloseIcon } from "./icons";
 import { useI18n } from "../../i18n";
+import ContactForm from "./ContactForm";
 
 type Props = {
   /** The floating DOM node, positioned every frame by the 3D scene. */
@@ -18,6 +19,8 @@ type Props = {
   onChoose: (choice: DialogueChoice) => void;
   onClose: () => void;
   onMusicToggle: () => void;
+  contactOpen: boolean;
+  onContactClose: () => void;
 };
 
 /**
@@ -32,6 +35,8 @@ export default function SpeechBubble({
   onChoose,
   onClose,
   onMusicToggle,
+  contactOpen,
+  onContactClose,
 }: Props) {
   const { t } = useI18n();
   const { playBlip } = useLlamaVoice(volume);
@@ -56,7 +61,7 @@ export default function SpeechBubble({
   return (
     <div
       ref={bubbleRef}
-      className="llama-speech-bubble"
+      className={`llama-speech-bubble${contactOpen ? " llama-speech-bubble--contact" : ""}`}
       data-visible={visible ? "true" : "false"}
       role="group"
       aria-label={`${t.ui.conversationWith} ${llamaProfile.name}`}
@@ -76,15 +81,19 @@ export default function SpeechBubble({
         </button>
       </div>
 
-      <p className="llama-speech-bubble__text" onClick={skip}>
+      {contactOpen ? (
+        <ContactForm onClose={onContactClose} />
+      ) : (
+        <p className="llama-speech-bubble__text" onClick={skip}>
         <span aria-hidden="true">
           {visibleText}
           {!isComplete && <span className="llama-speech-bubble__caret" />}
         </span>
         <span className="visually-hidden">{node.text}</span>
-      </p>
+        </p>
+      )}
 
-      {isComplete && node.choices.length > 0 && (
+      {!contactOpen && isComplete && node.choices.length > 0 && (
         <div className="llama-speech-bubble__choices">
           {node.choices.map((choice) => (
             <ChoiceButton
@@ -130,6 +139,13 @@ function ChoiceButton({
         type="button"
         onClick={onMusicToggle}
       >
+        {choice.label}
+      </button>
+    );
+  }
+  if (choice.action === "openContactForm") {
+    return (
+      <button className="llama-choice" type="button" onClick={() => onChoose(choice)}>
         {choice.label}
       </button>
     );

@@ -55,7 +55,7 @@ export function createLlamaScript(t: Translation): DialogueScript {
   contact: {
     text: t.dialogue.contact.text(owner.email),
     choices: [
-      { label: t.dialogue.contact.choices[0], href: `mailto:${owner.email}` },
+      { label: t.dialogue.contact.choices[0], action: "openContactForm" },
       ...owner.links.map((link) => ({ label: link.label, href: link.href })),
       backHomeContact,
     ],
