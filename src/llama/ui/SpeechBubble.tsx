@@ -4,6 +4,7 @@ import { useTypewriter } from "../dialogue/useTypewriter";
 import { useLlamaVoice } from "../voice/useLlamaVoice";
 import { llama as llamaProfile } from "../dialogue/profile";
 import { ArrowUpRightIcon, CloseIcon } from "./icons";
+import { useI18n } from "../../i18n";
 
 type Props = {
   /** The floating DOM node, positioned every frame by the 3D scene. */
@@ -29,6 +30,7 @@ export default function SpeechBubble({
   onChoose,
   onClose,
 }: Props) {
+  const { t } = useI18n();
   const { playBlip } = useLlamaVoice(volume);
   const { visibleText, isComplete, skip } = useTypewriter(node.text, {
     enabled: visible,
@@ -41,17 +43,17 @@ export default function SpeechBubble({
       className="llama-speech-bubble"
       data-visible={visible ? "true" : "false"}
       role="group"
-      aria-label={`Conversation avec ${llamaProfile.name}`}
+      aria-label={`${t.ui.conversationWith} ${llamaProfile.name}`}
     >
       <div className="llama-speech-bubble__header">
         <span className="llama-speech-bubble__kicker">
-          {llamaProfile.name}, le lama du portfolio
+          {t.ui.llamaPortfolio.replace("Paco", llamaProfile.name)}
         </span>
         <button
           className="llama-speech-bubble__close"
           type="button"
-          aria-label="Fermer la conversation"
-          title="Fermer"
+          aria-label={t.ui.closeConversation}
+          title={t.ui.close}
           onClick={onClose}
         >
           <CloseIcon />

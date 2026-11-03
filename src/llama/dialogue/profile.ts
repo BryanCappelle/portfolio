@@ -20,20 +20,18 @@ export const llama = {
   name: "Paco",
   species: "lama dessiné en 3D",
   intro: "Bienvenue dans mon univers !",
-  personality:
-    "Je suis un lama dessiné trait par trait, puis animé dans un canvas 3D. Je respire, je cligne de l'œil et je parle — clique sur mes réponses pour qu'on discute.",
 };
 
 export const owner = {
   // TODO: remplace ces informations par les tiennes.
-  name: "Ton prénom",
-  role: "développeur web",
-  location: "Lima, Pérou",
-  bio: "Il transforme des idées en interfaces rapides, animées et agréables à utiliser. Il aime autant le détail d'une courbe que la propreté d'un code.",
-  email: "bonjour@exemple.com",
+  name: "Bryan Cappelle",
+  email: "bryan.cappelle@gmail.com",
   links: [
-    { label: "GitHub", href: "https://github.com/" },
-    { label: "LinkedIn", href: "https://www.linkedin.com/" },
+    { label: "GitHub", href: "https://github.com/BryanCappelle" },
+    {
+      label: "LinkedIn",
+      href: "https://www.linkedin.com/in/bryan-cappelle-9b0a11199/",
+    },
   ] satisfies ProfileLink[],
   projects: [
     {
@@ -42,8 +40,8 @@ export const owner = {
       href: "#",
     },
     {
-      name: "Projet suivant",
-      summary: "À remplacer par un vrai projet.",
+      name: "WIP",
+      summary: "Soon to come",
       href: "#",
     },
   ] satisfies ProfileProject[],

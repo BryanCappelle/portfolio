@@ -1,73 +1,63 @@
 import type { DialogueChoice, DialogueScript } from "./types";
-import { llama, owner } from "./profile";
+import type { Translation } from "../../i18n/types";
+import { owner } from "./profile";
 
 /** Where the conversation starts. */
 export const START_NODE = "intro";
 
-const backHome: DialogueChoice = { label: "Autre chose", next: START_NODE };
+export function createLlamaScript(t: Translation): DialogueScript {
+  const backHome: DialogueChoice = { label: t.dialogue.owner.choices[2], next: START_NODE };
+  const backHomeProject: DialogueChoice = { label: t.dialogue.projects.choices[1], next: START_NODE };
+  const backHomeContact: DialogueChoice = { label: t.dialogue.contact.choices[3], next: START_NODE };
 
-/**
- * The llama's conversation tree.
- *
- * Each key is a node. `text` is what Paco says (typed out letter by letter),
- * `choices` are the buttons offered underneath. A choice either moves to
- * another node with `next`, or opens a link with `href`.
- *
- * Editing this file is all it takes to change the conversation.
- */
-export const llamaScript = {
+  return {
   intro: {
-    text: `Bienvenue dans mon univers ! Je suis ${llama.name}, le lama qui garde ce portfolio. Qu'est-ce qui t'amène ?`,
+    text: t.dialogue.intro.text,
     choices: [
-      { label: "Parle-moi de ton humain", next: "owner" },
-      { label: "Et toi, qui es-tu ?", next: "about" },
-      { label: "Montre-moi ses projets", next: "projects" },
-      { label: "Comment le contacter ?", next: "contact" },
+      { label: t.dialogue.intro.choices[0], next: "owner" },
+      { label: t.dialogue.intro.choices[1], next: "about" },
+      { label: t.dialogue.intro.choices[2], next: "projects" },
+      { label: t.dialogue.intro.choices[3], next: "contact" },
     ],
   },
 
   owner: {
-    text: `Mon humain s'appelle ${owner.name}. ${capitalize(owner.role)} basé à ${owner.location}. ${owner.bio}`,
+    text: t.dialogue.owner.text(owner.name, t.owner.role, t.owner.location, t.owner.bio),
     choices: [
-      { label: "Voir ses projets", next: "projects" },
-      { label: "Le contacter", next: "contact" },
+      { label: t.dialogue.owner.choices[0], next: "projects" },
+      { label: t.dialogue.owner.choices[1], next: "contact" },
       backHome,
     ],
   },
 
   about: {
-    text: `${llama.personality} Je suis fait de courbes, de lumière et d'un peu de code.`,
+    text: t.llama.personality,
     choices: [
-      { label: "Parle-moi de ton humain", next: "owner" },
-      { label: "Comment le contacter ?", next: "contact" },
+      { label: t.dialogue.about.choices[0], next: "owner" },
+      { label: t.dialogue.about.choices[1], next: "contact" },
       backHome,
     ],
   },
 
   projects: {
-    text: `Voici ce qu'il a construit récemment. Clique pour ouvrir un projet, je garde un œil sur toi.`,
+    text: t.dialogue.projects.text,
     choices: [
-      ...owner.projects.map((project) => ({
-        label: `${project.name} — ${project.summary}`,
+      ...owner.projects.map((project, index) => ({
+        label: `${project.name} — ${t.owner.projectSummaries[index] ?? project.summary}`,
         href: project.href,
       })),
-      { label: "Comment le contacter ?", next: "contact" },
-      backHome,
+      { label: t.dialogue.projects.choices[0], next: "contact" },
+      backHomeProject,
     ],
   },
 
   contact: {
-    text: `Le plus simple, c'est un email : ${owner.email}. Il répond vite, sauf quand il débogue.`,
+    text: t.dialogue.contact.text(owner.email),
     choices: [
-      { label: "Envoyer un email", href: `mailto:${owner.email}` },
+      { label: t.dialogue.contact.choices[0], href: `mailto:${owner.email}` },
       ...owner.links.map((link) => ({ label: link.label, href: link.href })),
-      backHome,
+      backHomeContact,
     ],
   },
-} satisfies DialogueScript;
-
-export type DialogueNodeId = keyof typeof llamaScript;
-
-function capitalize(value: string) {
-  return value.charAt(0).toUpperCase() + value.slice(1);
+  } satisfies DialogueScript;
 }

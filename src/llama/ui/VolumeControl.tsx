@@ -1,5 +1,6 @@
 import type { ChangeEvent } from "react";
 import { SpeakerOffIcon, SpeakerOnIcon } from "./icons";
+import { useI18n } from "../../i18n";
 
 type Props = {
   /** 0 → 100. */
@@ -16,11 +17,12 @@ export default function VolumeControl({
   onVolumeChange,
   onToggleMute,
 }: Props) {
+  const { t } = useI18n();
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     onVolumeChange(Number(event.target.value));
   };
 
-  const label = muted ? "Activer le son" : "Couper le son";
+  const label = muted ? t.ui.enableSound : t.ui.disableSound;
 
   return (
     <div className="llama-volume-control">
@@ -31,7 +33,7 @@ export default function VolumeControl({
         max="100"
         step="1"
         value={volume}
-        aria-label="Volume de la voix du lama"
+        aria-label={t.ui.voiceVolume}
         title={`${volume}%`}
         onChange={handleChange}
       />

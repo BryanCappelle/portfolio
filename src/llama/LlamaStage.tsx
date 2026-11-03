@@ -3,7 +3,7 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import type { PointerEvent } from "react";
 import { createLlamaCurve, createWinkCurve } from "./curves/llamaCurves";
 import { createIntroRuntime } from "./timeline/introTimeline";
-import { llamaScript, START_NODE } from "./dialogue/script";
+import { createLlamaScript, START_NODE } from "./dialogue/script";
 import { useDialogue } from "./dialogue/useDialogue";
 import { useSpeechVolume } from "./voice/useSpeechVolume";
 import LlamaScene from "./scene/LlamaScene";
@@ -11,6 +11,8 @@ import SpeechBubble from "./ui/SpeechBubble";
 import VolumeControl from "./ui/VolumeControl";
 import { ChatIcon } from "./ui/icons";
 import { llama as llamaProfile } from "./dialogue/profile";
+import LanguageControl from "./ui/LanguageControl";
+import { useI18n } from "../i18n";
 
 /**
  * The whole llama experience: the 3D intro, then the conversation.
@@ -19,6 +21,7 @@ import { llama as llamaProfile } from "./dialogue/profile";
  * only owns what the visitor can interact with (the bubble and the volume).
  */
 export default function LlamaStage() {
+  const { t } = useI18n();
   const elapsed = useRef(0);
   const progress = useRef(0);
   const pointer = useRef(new THREE.Vector2());
@@ -35,6 +38,7 @@ export default function LlamaStage() {
     [llamaCurve, winkCurve],
   );
 
+  const llamaScript = useMemo(() => createLlamaScript(t), [t]);
   const dialogue = useDialogue(llamaScript, START_NODE);
   const speech = useSpeechVolume();
 
@@ -82,9 +86,11 @@ export default function LlamaStage() {
           onClick={() => dialogue.open()}
         >
           <ChatIcon />
-          <span>Parler à {llamaProfile.name}</span>
+          <span>{t.ui.talkTo} {llamaProfile.name}</span>
         </button>
       )}
+
+      <LanguageControl />
 
       <VolumeControl
         volume={speech.volume}
