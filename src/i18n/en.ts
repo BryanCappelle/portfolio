@@ -34,25 +34,30 @@ export const en: Translation = {
         "Tell me about your human",
         "Who are you?",
         "Show me their projects",
-        "How can I contact them?",
+        "How can I contact him?",
       ],
     },
     owner: {
       text: (name, role, location, bio) =>
         `My human is called ${name}. They are a ${role} based in ${location}. ${bio}`,
-      choices: ["See their projects", "Contact them", "Play his music", "Something else"],
+      choices: [
+        "See their projects",
+        "Contact him",
+        "Play his music",
+        "Something else",
+      ],
     },
     about: {
       text: "",
       choices: [
         "Tell me about your human",
-        "How can I contact them?",
+        "How can I contact him?",
         "Something else",
       ],
     },
     projects: {
       text: "Here is what they have built recently. Click a project to open it; I will keep an eye on you.",
-      choices: ["How can I contact them?", "Something else"],
+      choices: ["How can I contact him?", "Something else"],
     },
     contact: {
       text: (email) =>
