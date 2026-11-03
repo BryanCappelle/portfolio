@@ -159,8 +159,16 @@ export class AnimationBuilder {
       destroyedCurves: new Set(),
       revision: 0,
       events: [],
+      skip: () => {},
       dispatch: () => false,
       isDestroyed: () => false,
+    };
+
+    runtime.skip = () => {
+      runtime.elapsed = runtime.timeline.duration;
+      runtime.progress = 1;
+      runtime.finished = true;
+      runtime.running = false;
     };
 
     runtime.isDestroyed = (curve) => runtime.destroyedCurves.has(curve);

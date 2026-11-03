@@ -85,6 +85,7 @@ export type AnimationRuntime = {
   destroyedCurves: Set<THREE.CatmullRomCurve3>;
   revision: number;
   events: ActiveAnimationEvent[];
+  skip: () => void;
   dispatch: (...events: AnimationEventDispatch[]) => boolean;
   isDestroyed: (curve: THREE.CatmullRomCurve3) => boolean;
 };

@@ -13,6 +13,7 @@ export type Translation = {
     playMusic: string;
     stopMusic: string;
     language: string;
+    skipIntro: string;
     contactForm: {
       title: string;
       subject: string;

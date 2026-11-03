@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { useCallback, useMemo, useRef, useState } from "react";
 import type { PointerEvent } from "react";
+import { SkipForward } from "lucide-react";
 import { createLlamaCurve, createWinkCurve } from "./curves/llamaCurves";
 import { createIntroRuntime } from "./timeline/introTimeline";
 import { createLlamaScript, START_NODE } from "./dialogue/script";
@@ -57,6 +58,13 @@ export default function LlamaStage() {
   };
 
   const markIntroFinished = useCallback(() => setIntroFinished(true), []);
+  const skipIntro = useCallback(() => {
+    runtime.skip();
+    elapsed.current = runtime.elapsed;
+    progress.current = runtime.progress;
+    markIntroFinished();
+  }, [elapsed, markIntroFinished, progress, runtime]);
+
   const handleChoose = useCallback(
     (choice: Parameters<typeof dialogue.choose>[0]) => {
       if (choice.action === "openContactForm") {
@@ -94,6 +102,18 @@ export default function LlamaStage() {
         contactOpen={contactOpen}
         onContactClose={() => setContactOpen(false)}
       />
+
+      {!introFinished && (
+        <button
+          className="llama-intro-skip"
+          type="button"
+          onClick={skipIntro}
+          aria-label={t.ui.skipIntro}
+        >
+          <SkipForward size={16} aria-hidden="true" />
+          <span>{t.ui.skipIntro}</span>
+        </button>
+      )}
 
       {introFinished && !dialogue.isOpen && (
         <button

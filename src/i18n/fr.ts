@@ -13,6 +13,7 @@ export const fr: Translation = {
     playMusic: "Mettre sa musique en boucle",
     stopMusic: "Arrêter la musique",
     language: "Langue",
+    skipIntro: "Passer l’introduction",
     contactForm: {
       title: "Laisser un message",
       subject: "Motif",
@@ -34,7 +35,7 @@ export const fr: Translation = {
     },
   },
   owner: {
-    role: "développeur web",
+    role: "développeur fullstack",
     location: "Lima, Pérou",
     bio: "Il transforme des idées en interfaces rapides, animées et agréables à utiliser. Il aime autant le détail d'une courbe que la propreté d'un code.",
     projectSummaries: [
@@ -59,7 +60,12 @@ export const fr: Translation = {
     owner: {
       text: (name, role, location, bio) =>
         `Mon humain s'appelle ${name}. ${role.charAt(0).toUpperCase()}${role.slice(1)} basé à ${location}. ${bio}`,
-      choices: ["Voir ses projets", "Le contacter", "Écouter sa musique", "Autre chose"],
+      choices: [
+        "Voir ses projets",
+        "Le contacter",
+        "Écouter sa musique",
+        "Autre chose",
+      ],
     },
     about: {
       text: "",

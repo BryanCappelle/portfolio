@@ -13,6 +13,7 @@ export const en: Translation = {
     playMusic: "Loop his music",
     stopMusic: "Stop the music",
     language: "Language",
+    skipIntro: "Skip introduction",
     contactForm: {
       title: "Leave a message",
       subject: "Subject",
@@ -34,7 +35,7 @@ export const en: Translation = {
     },
   },
   owner: {
-    role: "web developer",
+    role: "fullstack developer",
     location: "Lima, Peru",
     bio: "He turns ideas into fast, animated and enjoyable interfaces. He cares as much about the detail of a curve as about clean code.",
     projectSummaries: [
