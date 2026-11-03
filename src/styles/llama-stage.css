@@ -313,8 +313,9 @@
   bottom: 24px;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 7px 7px 7px 12px;
+  gap: 0;
+  box-sizing: border-box;
+  padding: 7px;
   border: 1px solid rgba(223, 250, 255, 0.14);
   border-radius: 999px;
   background: rgba(22, 26, 27, 0.82);
@@ -350,20 +351,60 @@
 
 .llama-volume-control__range {
   width: 0;
-  height: 4px;
+  height: 12px;
   margin: 0;
   accent-color: #dffaff;
+  background: transparent;
   cursor: pointer;
   opacity: 0;
-  visibility: hidden;
-  transition: 320ms ease;
+  transform: translateX(-6px);
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: 999px;
+  transition:
+    width 320ms ease,
+    opacity 220ms ease 40ms,
+    margin-right 320ms ease,
+    transform 320ms ease;
+}
+
+.llama-volume-control__range::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(223, 250, 255, 0.28);
+}
+
+.llama-volume-control__range::-webkit-slider-thumb {
+  width: 12px;
+  height: 12px;
+  margin-top: -4px;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  border-radius: 50%;
+  background: #dffaff;
+}
+
+.llama-volume-control__range::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(223, 250, 255, 0.28);
+}
+
+.llama-volume-control__range::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border: 0;
+  border-radius: 50%;
+  background: #dffaff;
 }
 
 .llama-volume-control:hover .llama-volume-control__range,
 .llama-volume-control:focus-within .llama-volume-control__range {
   width: 92px;
   opacity: 1;
-  visibility: visible;
+  margin-right: 10px;
+  transform: translateX(0);
 }
 
 /* --------------------------------------------------------------- mobile -- */
@@ -396,7 +437,7 @@
   .llama-volume-control {
     right: 14px;
     gap: 7px;
-    padding-left: 9px;
+    padding: 7px;
   }
 
   .llama-language-control {
@@ -408,11 +449,13 @@
     width: 68px;
     opacity: 1;
     visibility: visible;
+    margin-right: 7px;
   }
 
   .llama-volume-control:hover .llama-volume-control__range,
   .llama-volume-control:focus-within .llama-volume-control__range {
     width: 68px;
+    margin-right: 7px;
   }
 }
 
