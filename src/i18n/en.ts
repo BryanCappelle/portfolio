@@ -10,6 +10,8 @@ export const en: Translation = {
     enableSound: "Enable sound",
     disableSound: "Mute sound",
     voiceVolume: "Llama voice volume",
+    playMusic: "Loop his music",
+    stopMusic: "Stop the music",
     language: "Language",
   },
   owner: {
@@ -38,7 +40,7 @@ export const en: Translation = {
     owner: {
       text: (name, role, location, bio) =>
         `My human is called ${name}. They are a ${role} based in ${location}. ${bio}`,
-      choices: ["See their projects", "Contact them", "Something else"],
+      choices: ["See their projects", "Contact them", "Play his music", "Something else"],
     },
     about: {
       text: "",

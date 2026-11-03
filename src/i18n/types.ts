@@ -10,6 +10,8 @@ export type Translation = {
     enableSound: string;
     disableSound: string;
     voiceVolume: string;
+    playMusic: string;
+    stopMusic: string;
     language: string;
   };
   owner: {

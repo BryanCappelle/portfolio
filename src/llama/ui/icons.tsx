@@ -58,6 +58,18 @@ export function ChatIcon({ size = 18 }: IconProps) {
     </svg>
   );
 }
+
+export function MusicIcon({ size = 20 }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true">
+      <path
+        d="M9 18V7l10-2v11M9 18c0 1.4-1.3 2.5-3 2.5S3 19.4 3 18s1.3-2.5 3-2.5S9 16.6 9 18Zm10-2c0 1.4-1.3 2.5-3 2.5S13 17.4 13 16s1.3-2.5 3-2.5 3 1.1 3 2.5Z"
+        {...STROKE_PROPS}
+      />
+    </svg>
+  );
+}
+
 export function ArrowUpRightIcon({ size = 14 }: IconProps) {
   return (
     <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true">

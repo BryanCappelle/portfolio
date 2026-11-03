@@ -1,5 +1,9 @@
 import type { ChangeEvent } from "react";
-import { SpeakerOffIcon, SpeakerOnIcon } from "./icons";
+import {
+  MusicIcon,
+  SpeakerOffIcon,
+  SpeakerOnIcon,
+} from "./icons";
 import { useI18n } from "../../i18n";
 
 type Props = {
@@ -8,6 +12,9 @@ type Props = {
   muted: boolean;
   onVolumeChange: (volume: number) => void;
   onToggleMute: () => void;
+  musicRequested?: boolean;
+  musicPlaying?: boolean;
+  onMusicToggle?: () => void;
 };
 
 /** Mute button with a slider that slides out on hover. */
@@ -16,6 +23,9 @@ export default function VolumeControl({
   muted,
   onVolumeChange,
   onToggleMute,
+  musicRequested = false,
+  musicPlaying = false,
+  onMusicToggle,
 }: Props) {
   const { t } = useI18n();
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -48,6 +58,19 @@ export default function VolumeControl({
       >
         {muted ? <SpeakerOffIcon /> : <SpeakerOnIcon />}
       </button>
+
+      {musicRequested && onMusicToggle && (
+        <button
+          className="llama-volume-control__music"
+          type="button"
+          aria-label={musicPlaying ? t.ui.stopMusic : t.ui.playMusic}
+          title={musicPlaying ? t.ui.stopMusic : t.ui.playMusic}
+          aria-pressed={musicPlaying}
+          onClick={onMusicToggle}
+        >
+          <MusicIcon />
+        </button>
+      )}
     </div>
   );
 }

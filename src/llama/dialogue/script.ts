@@ -6,7 +6,7 @@ import { owner } from "./profile";
 export const START_NODE = "intro";
 
 export function createLlamaScript(t: Translation): DialogueScript {
-  const backHome: DialogueChoice = { label: t.dialogue.owner.choices[2], next: START_NODE };
+  const backHome: DialogueChoice = { label: t.dialogue.owner.choices[3], next: START_NODE };
   const backHomeProject: DialogueChoice = { label: t.dialogue.projects.choices[1], next: START_NODE };
   const backHomeContact: DialogueChoice = { label: t.dialogue.contact.choices[3], next: START_NODE };
 
@@ -26,6 +26,7 @@ export function createLlamaScript(t: Translation): DialogueScript {
     choices: [
       { label: t.dialogue.owner.choices[0], next: "projects" },
       { label: t.dialogue.owner.choices[1], next: "contact" },
+      { label: t.dialogue.owner.choices[2], action: "toggleMusic" },
       backHome,
     ],
   },

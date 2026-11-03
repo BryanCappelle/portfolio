@@ -6,6 +6,7 @@ import { createIntroRuntime } from "./timeline/introTimeline";
 import { createLlamaScript, START_NODE } from "./dialogue/script";
 import { useDialogue } from "./dialogue/useDialogue";
 import { useSpeechVolume } from "./voice/useSpeechVolume";
+import { useBackgroundMusic } from "./voice/useBackgroundMusic";
 import LlamaScene from "./scene/LlamaScene";
 import SpeechBubble from "./ui/SpeechBubble";
 import VolumeControl from "./ui/VolumeControl";
@@ -41,6 +42,7 @@ export default function LlamaStage() {
   const llamaScript = useMemo(() => createLlamaScript(t), [t]);
   const dialogue = useDialogue(llamaScript, START_NODE);
   const speech = useSpeechVolume();
+  const music = useBackgroundMusic(speech.effectiveVolume);
 
   const bubbleVisible = introFinished && dialogue.isOpen;
 
@@ -77,6 +79,7 @@ export default function LlamaStage() {
         volume={speech.effectiveVolume}
         onChoose={dialogue.choose}
         onClose={dialogue.close}
+        onMusicToggle={music.toggle}
       />
 
       {introFinished && !dialogue.isOpen && (
@@ -97,6 +100,9 @@ export default function LlamaStage() {
         muted={speech.muted}
         onVolumeChange={speech.changeVolume}
         onToggleMute={speech.toggleMuted}
+        musicRequested={music.requested}
+        musicPlaying={music.playing}
+        onMusicToggle={music.toggle}
       />
     </div>
   );

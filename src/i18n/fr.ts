@@ -10,6 +10,8 @@ export const fr: Translation = {
     enableSound: "Activer le son",
     disableSound: "Couper le son",
     voiceVolume: "Volume de la voix du lama",
+    playMusic: "Mettre sa musique en boucle",
+    stopMusic: "Arrêter la musique",
     language: "Langue",
   },
   owner: {
@@ -38,7 +40,7 @@ export const fr: Translation = {
     owner: {
       text: (name, role, location, bio) =>
         `Mon humain s'appelle ${name}. ${role.charAt(0).toUpperCase()}${role.slice(1)} basé à ${location}. ${bio}`,
-      choices: ["Voir ses projets", "Le contacter", "Autre chose"],
+      choices: ["Voir ses projets", "Le contacter", "Écouter sa musique", "Autre chose"],
     },
     about: {
       text: "",

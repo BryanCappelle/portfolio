@@ -1,4 +1,5 @@
 import type { RefObject } from "react";
+import { useEffect } from "react";
 import type { DialogueChoice, DialogueNode } from "../dialogue/types";
 import { useTypewriter } from "../dialogue/useTypewriter";
 import { useLlamaVoice } from "../voice/useLlamaVoice";
@@ -16,6 +17,7 @@ type Props = {
   volume: number;
   onChoose: (choice: DialogueChoice) => void;
   onClose: () => void;
+  onMusicToggle: () => void;
 };
 
 /**
@@ -29,6 +31,7 @@ export default function SpeechBubble({
   volume,
   onChoose,
   onClose,
+  onMusicToggle,
 }: Props) {
   const { t } = useI18n();
   const { playBlip } = useLlamaVoice(volume);
@@ -36,6 +39,19 @@ export default function SpeechBubble({
     enabled: visible,
     onCharacter: playBlip,
   });
+
+  useEffect(() => {
+    if (!visible || isComplete) return;
+
+    const skipTextOnGlobalClick = () => {
+      if (!isComplete) skip();
+    };
+
+    window.addEventListener("pointerdown", skipTextOnGlobalClick);
+    return () => {
+      window.removeEventListener("pointerdown", skipTextOnGlobalClick);
+    };
+  }, [visible, isComplete, skip]);
 
   return (
     <div
@@ -75,6 +91,7 @@ export default function SpeechBubble({
               key={choice.label}
               choice={choice}
               onChoose={onChoose}
+              onMusicToggle={onMusicToggle}
             />
           ))}
         </div>
@@ -86,9 +103,11 @@ export default function SpeechBubble({
 function ChoiceButton({
   choice,
   onChoose,
+  onMusicToggle,
 }: {
   choice: DialogueChoice;
   onChoose: (choice: DialogueChoice) => void;
+  onMusicToggle: () => void;
 }) {
   if (choice.href) {
     return (
@@ -101,6 +120,18 @@ function ChoiceButton({
         <span>{choice.label}</span>
         <ArrowUpRightIcon size={14} />
       </a>
+    );
+  }
+
+  if (choice.action === "toggleMusic") {
+    return (
+      <button
+        className="llama-choice"
+        type="button"
+        onClick={onMusicToggle}
+      >
+        {choice.label}
+      </button>
     );
   }
 
