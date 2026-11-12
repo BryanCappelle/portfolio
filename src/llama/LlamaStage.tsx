@@ -91,6 +91,22 @@ export default function LlamaStage() {
         onIntroFinish={markIntroFinished}
       />
 
+      {introFinished && dialogue.nodeId === "owner" && (
+        <div className="llama-human-portal" aria-label="Portrait de Bryan">
+          <div className="llama-human-portal__ring" aria-hidden="true" />
+          <div className="llama-human-portal__image-wrap">
+            <img
+              className="llama-human-portal__image"
+              src={`${import.meta.env.BASE_URL}human.jpg`}
+              alt="Bryan"
+            />
+          </div>
+          <span className="llama-human-portal__label" aria-hidden="true">
+            Bryan
+          </span>
+        </div>
+      )}
+
       <SpeechBubble
         bubbleRef={bubbleRef}
         node={dialogue.node}

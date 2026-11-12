@@ -29,6 +29,150 @@
   touch-action: pan-y;
 }
 
+/* ------------------------------------------------------- human portal -- */
+
+.llama-human-portal {
+  position: absolute;
+  z-index: 12;
+  left: clamp(18px, 3vw, 48px);
+  top: 50%;
+  width: clamp(150px, 16vw, 220px);
+  aspect-ratio: 0.82;
+  transform: translateY(-50%);
+  pointer-events: none;
+  filter: drop-shadow(0 24px 42px rgba(0, 0, 0, 0.38));
+  animation: llamaPortalEnter 1.1s 120ms cubic-bezier(0.16, 0.75, 0.25, 1) both;
+}
+
+.llama-human-portal__image-wrap {
+  position: absolute;
+  inset: 8%;
+  overflow: hidden;
+  border: 1px solid rgba(223, 250, 255, 0.72);
+  border-radius: 20% 2% 18% 28% / 18% 58% 22% 42%;
+  background:
+    radial-gradient(
+      circle at 50% 42%,
+      rgba(223, 250, 255, 0.5),
+      transparent 3%
+    ),
+    #12171b;
+  box-shadow:
+    0 0 18px rgba(223, 250, 255, 0.7),
+    0 0 52px rgba(223, 250, 255, 0.28),
+    inset 0 0 28px rgba(223, 250, 255, 0.16);
+}
+
+.llama-human-portal__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 68% center;
+  filter: saturate(0.82) contrast(1.08) brightness(0.92);
+  transform: scale(1.06);
+  animation: llamaPortalPerson 8s ease-in-out infinite alternate;
+}
+
+.llama-human-portal__ring {
+  position: absolute;
+  inset: -4%;
+  border: 2px solid rgba(223, 250, 255, 0.38);
+  border-radius: 50%;
+  box-shadow:
+    0 0 12px rgba(223, 250, 255, 0.52),
+    inset 0 0 14px rgba(223, 250, 255, 0.24);
+  animation: llamaPortalSpin 18s linear infinite;
+}
+
+.llama-human-portal__ring::before,
+.llama-human-portal__ring::after {
+  position: absolute;
+  border-radius: 50%;
+  content: "";
+}
+
+.llama-human-portal__ring::before {
+  inset: 7px;
+  border: 1px dashed rgba(223, 250, 255, 0.6);
+  animation: llamaPortalSpinReverse 12s linear infinite;
+}
+
+.llama-human-portal__ring::after {
+  top: 7%;
+  right: 8%;
+  width: 8px;
+  height: 8px;
+  background: #dffaff;
+  box-shadow:
+    0 0 12px #dffaff,
+    0 0 26px rgba(223, 250, 255, 0.9);
+}
+
+.llama-human-portal__label {
+  position: absolute;
+  left: 50%;
+  bottom: -12px;
+  padding: 5px 12px;
+  border: 1px solid rgba(223, 250, 255, 0.2);
+  border-radius: 999px;
+  color: rgba(223, 250, 255, 0.88);
+  background: rgba(12, 16, 21, 0.82);
+  box-shadow: 0 0 20px rgba(223, 250, 255, 0.08);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transform: translateX(-50%);
+  backdrop-filter: blur(8px);
+}
+
+@keyframes llamaPortalEnter {
+  from {
+    opacity: 0;
+    transform: translateY(-50%) scale(0.55) rotateY(25deg);
+    filter: blur(12px) brightness(2);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%) scale(1) rotateY(0);
+    filter: blur(0) brightness(1);
+  }
+}
+
+@keyframes llamaPortalEnterMobile {
+  from {
+    opacity: 0;
+    transform: scale(0.55) rotateY(25deg);
+    filter: blur(12px) brightness(2);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotateY(0);
+    filter: blur(0) brightness(1);
+  }
+}
+
+@keyframes llamaPortalPerson {
+  from {
+    transform: scale(1.06) translateY(0);
+  }
+  to {
+    transform: scale(1.11) translateY(-1%);
+  }
+}
+
+@keyframes llamaPortalSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes llamaPortalSpinReverse {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
 /* ---------------------------------------------------------------- bubble -- */
 
 .llama-speech-bubble {
@@ -774,6 +918,14 @@
 /* --------------------------------------------------------------- mobile -- */
 
 @media (max-width: 760px) {
+  .llama-human-portal {
+    top: 68px;
+    left: 12px;
+    width: 112px;
+    transform: none;
+    animation-name: llamaPortalEnterMobile;
+  }
+
   .llama-speech-bubble {
     width: min(300px, calc(100vw - 24px));
     padding: 12px 13px 13px;
@@ -835,7 +987,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .llama-speech-bubble,
-  .llama-choice {
+  .llama-choice,
+  .llama-human-portal {
     animation: none;
     transition: none;
   }
