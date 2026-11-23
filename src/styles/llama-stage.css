@@ -177,7 +177,7 @@
 
 .llama-speech-bubble {
   position: absolute;
-  z-index: 25;
+  z-index: 999;
   width: clamp(240px, 21vw, 310px);
   padding: 14px 16px 16px;
   border: 1px solid rgba(223, 250, 255, 0.18);
@@ -304,14 +304,25 @@
 }
 
 .llama-speech-bubble--contact {
-  width: clamp(360px, 31vw, 420px);
+  width: clamp(360px, 34vw, 460px);
   padding: 16px 18px 14px;
   border-radius: 18px 18px 18px 6px;
 }
 
 .llama-speech-bubble--free-chat {
-  max-height: calc(100svh - 40px);
-  overflow-y: auto;
+  max-height: calc(100svh - 64px);
+  overflow: hidden;
+  border-color: rgba(223, 250, 255, 0.3);
+  background:
+    radial-gradient(
+      ellipse at top right,
+      rgba(223, 250, 255, 0.08),
+      transparent 38%
+    ),
+    rgba(18, 23, 25, 0.96);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.44),
+    0 0 36px rgba(223, 250, 255, 0.08);
 }
 
 /* --------------------------------------------------------------- choices -- */
@@ -368,6 +379,45 @@
   color: #dffaff;
 }
 
+.llama-choice--featured {
+  justify-content: flex-start;
+  min-height: 44px;
+  border-color: rgba(223, 250, 255, 0.42);
+  color: #f5fdff;
+  background: linear-gradient(
+    110deg,
+    rgba(223, 250, 255, 0.14),
+    rgba(223, 250, 255, 0.055)
+  );
+  box-shadow: inset 0 0 0 1px rgba(223, 250, 255, 0.035);
+  font-weight: 650;
+}
+
+.llama-choice--featured:hover {
+  border-color: rgba(223, 250, 255, 0.72);
+  background: linear-gradient(
+    110deg,
+    rgba(223, 250, 255, 0.22),
+    rgba(223, 250, 255, 0.09)
+  );
+}
+
+.llama-choice__icon {
+  flex: 0 0 auto;
+  color: #dffaff;
+}
+
+.llama-choice__hint {
+  margin-left: auto;
+  padding: 3px 6px;
+  border: 1px solid rgba(223, 250, 255, 0.22);
+  border-radius: 5px;
+  color: rgba(223, 250, 255, 0.82);
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+}
+
 @keyframes choiceIn {
   from {
     opacity: 0;
@@ -386,41 +436,83 @@
 .llama-free-chat {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   min-height: 0;
   margin-top: 4px;
 }
 
+.llama-free-chat__header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.llama-free-chat__avatar {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  place-items: center;
+  border: 1px solid rgba(223, 250, 255, 0.24);
+  border-radius: 12px;
+  color: #dffaff;
+  background: rgba(223, 250, 255, 0.1);
+}
+
 .llama-free-chat__title {
-  padding-bottom: 9px;
-  border-bottom: 1px solid rgba(223, 250, 255, 0.12);
   color: rgba(223, 250, 255, 0.96);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 17px;
-  line-height: 1.2;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.llama-free-chat__description {
+  margin: 2px 0 0;
+  color: rgba(244, 242, 235, 0.56);
+  font-size: 11px;
+  line-height: 1.35;
 }
 
 .llama-free-chat__history {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  max-height: min(32vh, 260px);
+  gap: 14px;
+  min-height: 88px;
+  max-height: min(40svh, 340px);
   overflow-y: auto;
-  padding-right: 3px;
+  padding: 12px 4px 8px 0;
+  border-top: 1px solid rgba(223, 250, 255, 0.1);
+  border-bottom: 1px solid rgba(223, 250, 255, 0.1);
+  scrollbar-color: rgba(223, 250, 255, 0.24) transparent;
+  scrollbar-width: thin;
+}
+
+.llama-free-chat__history--empty {
+  justify-content: center;
+}
+
+.llama-free-chat__empty {
+  max-width: 260px;
+  margin: 0 auto;
+  color: rgba(244, 242, 235, 0.62);
+  font-size: 12px;
+  line-height: 1.55;
+  text-align: center;
 }
 
 .llama-free-chat__exchange {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  align-items: flex-start;
+  gap: 5px;
 }
 
 .llama-free-chat__message,
 .llama-free-chat__reply {
   margin: 0;
-  padding: 8px 10px;
-  border-radius: 9px;
-  font-size: 13px;
+  padding: 9px 11px;
+  border-radius: 12px;
+  font-size: 12px;
   line-height: 1.45;
   overflow-wrap: anywhere;
   white-space: pre-wrap;
@@ -428,49 +520,154 @@
 
 .llama-free-chat__message {
   align-self: flex-end;
-  max-width: 90%;
-  color: #f4f2eb;
-  background: rgba(223, 250, 255, 0.1);
+  max-width: 92%;
+  border: 1px solid rgba(223, 250, 255, 0.13);
+  border-bottom-right-radius: 4px;
+  color: #f7fbfc;
+  background: rgba(223, 250, 255, 0.11);
+}
+
+.llama-free-chat__speaker {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: rgba(244, 242, 235, 0.48);
+  font-size: 10px;
+  font-weight: 650;
 }
 
 .llama-free-chat__reply {
+  max-width: 96%;
+  border: 1px solid rgba(223, 250, 255, 0.08);
+  border-bottom-left-radius: 4px;
   color: rgba(244, 242, 235, 0.92);
-  background: rgba(8, 12, 15, 0.42);
+  background: rgba(8, 12, 15, 0.38);
 }
 
 .llama-free-chat__form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 7px;
 }
 
 .llama-free-chat__form textarea {
   width: 100%;
-  min-height: 72px;
-  resize: vertical;
-  padding: 9px 10px;
-  border: 1px solid rgba(223, 250, 255, 0.18);
-  border-radius: 8px;
+  min-height: 40px;
+  max-height: 140px;
+  resize: none;
+  overflow-y: auto;
+  padding: 10px 12px;
+  border: 1px solid rgba(223, 250, 255, 0.2);
+  border-radius: 12px;
   outline: 0;
   color: #f4f2eb;
-  background: rgba(8, 12, 15, 0.72);
+  background: rgba(8, 12, 15, 0.55);
   font: inherit;
   font-size: 13px;
   line-height: 1.45;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background 180ms ease;
 }
 
 .llama-free-chat__form textarea:focus {
-  border-color: rgba(223, 250, 255, 0.55);
-  box-shadow: 0 0 0 2px rgba(223, 250, 255, 0.08);
+  border-color: rgba(223, 250, 255, 0.48);
+  background: rgba(8, 12, 15, 0.74);
+  box-shadow: 0 0 0 3px rgba(223, 250, 255, 0.07);
 }
 
 .llama-free-chat__form textarea:disabled {
   opacity: 0.65;
 }
 
+.llama-free-chat__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.llama-free-chat__submit {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  place-items: center;
+  border: 1px solid rgba(223, 250, 255, 0.52);
+  border-radius: 11px;
+  color: #11181f;
+  background: #dffaff;
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    background 180ms ease,
+    opacity 180ms ease;
+}
+
+.llama-free-chat__submit:hover:not(:disabled) {
+  background: #ffffff;
+  transform: translateY(-1px);
+}
+
+.llama-free-chat__submit:focus-visible {
+  outline: 2px solid #dffaff;
+  outline-offset: 3px;
+}
+
+.llama-free-chat__submit:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
+}
+
+.llama-free-chat__key-hint {
+  margin: -2px 0 0;
+  color: rgba(244, 242, 235, 0.42);
+  font-size: 9px;
+  line-height: 1.35;
+  text-align: right;
+}
+
 .llama-free-chat__sending {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  padding: 8px 10px;
+  border: 1px solid rgba(223, 250, 255, 0.08);
+  border-radius: 10px;
   color: rgba(223, 250, 255, 0.72);
-  font-size: 12px;
+  background: rgba(8, 12, 15, 0.38);
+  font-size: 11px;
+}
+
+.llama-free-chat__typing-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.llama-free-chat__typing-dots i {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: llamaTyping 1s ease-in-out infinite;
+}
+
+.llama-free-chat__typing-dots i:nth-child(2) {
+  animation-delay: 120ms;
+}
+
+.llama-free-chat__typing-dots i:nth-child(3) {
+  animation-delay: 240ms;
+}
+
+@keyframes llamaTyping {
+  50% {
+    opacity: 0.35;
+    transform: translateY(-2px);
+  }
 }
 
 .llama-contact-form__title {
@@ -1030,7 +1227,14 @@
   .llama-speech-bubble--contact {
     width: min(360px, calc(100vw - 24px));
     max-height: calc(100svh - 24px);
-    overflow-y: auto;
+  }
+
+  .llama-speech-bubble--free-chat {
+    max-height: calc(100svh - 24px);
+  }
+
+  .llama-free-chat__history {
+    max-height: min(38svh, 300px);
   }
 
   .llama-contact-form__row {
@@ -1080,10 +1284,32 @@
   }
 }
 
+.llama-speech-bubble--sheet {
+  width: min(460px, calc(100vw - 24px));
+  max-height: min(70svh, calc(100svh - 24px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-radius: 16px;
+  transform-origin: center bottom;
+}
+
+.llama-speech-bubble--sheet::before {
+  display: none;
+}
+
+.llama-speech-bubble--sheet .llama-speech-bubble__header {
+  position: sticky;
+  z-index: 1;
+  top: 0;
+  padding-block: 4px;
+  background: rgba(22, 26, 27, 0.96);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .llama-speech-bubble,
   .llama-choice,
-  .llama-human-portal {
+  .llama-human-portal,
+  .llama-free-chat__typing-dots i {
     animation: none;
     transition: none;
   }

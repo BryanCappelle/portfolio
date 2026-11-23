@@ -1,5 +1,6 @@
 import type { RefObject } from "react";
 import { useEffect } from "react";
+import { MessageCircle } from "lucide-react";
 import type { DialogueChoice, DialogueNode } from "../dialogue/types";
 import { useTypewriter } from "../dialogue/useTypewriter";
 import { useLlamaVoice } from "../voice/useLlamaVoice";
@@ -7,7 +8,7 @@ import { llama as llamaProfile } from "../dialogue/profile";
 import { ArrowUpRightIcon, CloseIcon } from "./icons";
 import { useI18n } from "../../i18n";
 import ContactForm from "./ContactForm";
-import FreeChat from "./FreeChat";
+import FreeChat, { type Exchange, type FreeChatAction } from "./FreeChat";
 
 type Props = {
   /** The floating DOM node, positioned every frame by the 3D scene. */
@@ -21,9 +22,13 @@ type Props = {
   onClose: () => void;
   onMusicToggle: () => void;
   contactOpen: boolean;
+  contactDraft: string;
   onContactClose: () => void;
   freeChatOpen: boolean;
   onFreeChatClose: () => void;
+  freeChatExchanges: Exchange[];
+  onFreeChatExchangesChange: (update: (current: Exchange[]) => Exchange[]) => void;
+  onFreeChatAction: (action: FreeChatAction) => void;
 };
 
 /**
@@ -39,9 +44,13 @@ export default function SpeechBubble({
   onClose,
   onMusicToggle,
   contactOpen,
+  contactDraft,
   onContactClose,
   freeChatOpen,
   onFreeChatClose,
+  freeChatExchanges,
+  onFreeChatExchangesChange,
+  onFreeChatAction,
 }: Props) {
   const { t } = useI18n();
   const { playBlip } = useLlamaVoice(volume);
@@ -87,9 +96,14 @@ export default function SpeechBubble({
       </div>
 
       {contactOpen ? (
-        <ContactForm onClose={onContactClose} />
+        <ContactForm onClose={onContactClose} draft={contactDraft} />
       ) : freeChatOpen ? (
-        <FreeChat onClose={onFreeChatClose} />
+        <FreeChat
+          onClose={onFreeChatClose}
+          exchanges={freeChatExchanges}
+          onExchangesChange={onFreeChatExchangesChange}
+          onAction={onFreeChatAction}
+        />
       ) : (
         <p className="llama-speech-bubble__text" onClick={skip}>
         <span aria-hidden="true">
@@ -160,11 +174,19 @@ function ChoiceButton({
 
   return (
     <button
-      className="llama-choice"
+      className={`llama-choice${choice.action === "openFreeChat" ? " llama-choice--featured" : ""}`}
       type="button"
       onClick={() => onChoose(choice)}
     >
+      {choice.action === "openFreeChat" && (
+        <MessageCircle className="llama-choice__icon" size={16} aria-hidden="true" />
+      )}
       {choice.label}
+      {choice.action === "openFreeChat" && (
+        <span className="llama-choice__hint" aria-hidden="true">
+          IA
+        </span>
+      )}
     </button>
   );
 }

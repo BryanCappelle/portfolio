@@ -16,7 +16,10 @@ export const fr: Translation = {
     skipIntro: "Passer l’introduction",
     freeChat: {
       title: "Parler librement",
-      placeholder: "Écris ton message au lama...",
+      description: "Une question sur Bryan, ses projets ou autre chose ?",
+      empty: "La conversation commence ici. Pose-moi ta question !",
+      placeholder: "Écris ton message...",
+      keyHint: "Entrée pour envoyer · Maj + Entrée pour aller à la ligne",
       send: "Envoyer",
       sending: "Le lama réfléchit...",
       error: "Impossible d'obtenir une réponse. Réessaie.",

@@ -16,12 +16,12 @@ type Props = {
 const EDGE_MARGIN = 12;
 const DESKTOP_MARGIN = 24;
 const MOBILE_BREAKPOINT = 760;
+const SHORT_VIEWPORT = 600;
 
 /**
  * Projects the llama's head to screen space every frame and parks the speech
- * bubble next to it: on the right when there is room, otherwise above, and as
- * a last resort below. Visibility itself is handled by CSS through a data
- * attribute, so the entrance transition always plays.
+ * bubble next to it when there is room, falling back to a bottom sheet on
+ * narrow, short, or content-constrained viewports.
  */
 export default function BubbleAnchor({
   bubbleRef,
@@ -53,6 +53,22 @@ export default function BubbleAnchor({
 
     const headX = (projected.x * 0.5 + 0.5) * size.width;
     const headY = (-projected.y * 0.5 + 0.5) * size.height;
+    const useSheet =
+      size.width < MOBILE_BREAKPOINT ||
+      size.height < SHORT_VIEWPORT ||
+      bubble.scrollHeight > size.height - EDGE_MARGIN * 2;
+
+    bubble.classList.toggle("llama-speech-bubble--sheet", useSheet);
+    if (useSheet) {
+      bubble.classList.remove(
+        "llama-speech-bubble--left-tail",
+        "llama-speech-bubble--top-tail",
+      );
+      bubble.style.left = `${Math.max(EDGE_MARGIN, (size.width - bubble.offsetWidth) / 2)}px`;
+      bubble.style.top = `${Math.max(EDGE_MARGIN, size.height - bubble.offsetHeight - EDGE_MARGIN)}px`;
+      return;
+    }
+
     const margin =
       size.width < MOBILE_BREAKPOINT ? EDGE_MARGIN : DESKTOP_MARGIN;
     const bubbleWidth = bubble.offsetWidth;

@@ -15,6 +15,7 @@ import { ChatIcon } from "./ui/icons";
 import { llama as llamaProfile } from "./dialogue/profile";
 import LanguageControl from "./ui/LanguageControl";
 import { useI18n } from "../i18n";
+import type { Exchange, FreeChatAction } from "./ui/FreeChat";
 
 /**
  * The whole llama experience: the 3D intro, then the conversation.
@@ -33,7 +34,9 @@ export default function LlamaStage() {
 
   const [introFinished, setIntroFinished] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
+  const [contactDraft, setContactDraft] = useState("");
   const [freeChatOpen, setFreeChatOpen] = useState(false);
+  const [freeChatExchanges, setFreeChatExchanges] = useState<Exchange[]>([]);
 
   const llamaCurve = useMemo(createLlamaCurve, []);
   const winkCurve = useMemo(createWinkCurve, []);
@@ -69,6 +72,7 @@ export default function LlamaStage() {
   const handleChoose = useCallback(
     (choice: Parameters<typeof dialogue.choose>[0]) => {
       if (choice.action === "openContactForm") {
+        setContactDraft("");
         setContactOpen(true);
         return;
       }
@@ -79,6 +83,28 @@ export default function LlamaStage() {
       dialogue.choose(choice);
     },
     [dialogue],
+  );
+
+  const handleFreeChatAction = useCallback(
+    (action: FreeChatAction) => {
+      switch (action.type) {
+        case "navigate":
+          dialogue.navigate(action.page);
+          dialogue.open();
+          setFreeChatOpen(false);
+          break;
+        case "play_music":
+          void music.play();
+          break;
+        case "open_contact_form":
+          setContactDraft(action.draft ?? "");
+          setContactOpen(true);
+          dialogue.open();
+          setFreeChatOpen(false);
+          break;
+      }
+    },
+    [dialogue, music],
   );
 
   return (
@@ -121,9 +147,13 @@ export default function LlamaStage() {
         onClose={dialogue.close}
         onMusicToggle={music.toggle}
         contactOpen={contactOpen}
+        contactDraft={contactDraft}
         onContactClose={() => setContactOpen(false)}
         freeChatOpen={freeChatOpen}
         onFreeChatClose={() => setFreeChatOpen(false)}
+        freeChatExchanges={freeChatExchanges}
+        onFreeChatExchangesChange={setFreeChatExchanges}
+        onFreeChatAction={handleFreeChatAction}
       />
 
       {!introFinished && (
@@ -145,7 +175,9 @@ export default function LlamaStage() {
           onClick={() => dialogue.open()}
         >
           <ChatIcon />
-          <span>{t.ui.talkTo} {llamaProfile.name}</span>
+          <span>
+            {t.ui.talkTo} {llamaProfile.name}
+          </span>
         </button>
       )}
 

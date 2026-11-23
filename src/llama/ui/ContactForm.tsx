@@ -5,9 +5,10 @@ import { useI18n } from "../../i18n";
 
 type Props = {
   onClose: () => void;
+  draft?: string;
 };
 
-export default function ContactForm({ onClose }: Props) {
+export default function ContactForm({ onClose, draft = "" }: Props) {
   const { t } = useI18n();
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const subjectRef = useRef<HTMLSelectElement>(null);
@@ -91,7 +92,14 @@ export default function ContactForm({ onClose }: Props) {
           </div>
           <label className="llama-contact-form__message">
             <span>{labels.message}</span>
-            <textarea name="message" required minLength={10} maxLength={1000} rows={4} />
+            <textarea
+              name="message"
+              required
+              minLength={10}
+              maxLength={1000}
+              rows={4}
+              defaultValue={draft}
+            />
           </label>
           <input type="checkbox" name="botcheck" className="visually-hidden" tabIndex={-1} autoComplete="off" />
           {status === "error" && (

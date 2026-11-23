@@ -31,18 +31,11 @@ export function useBackgroundMusic(volume: number) {
     }
   }, [volume]);
 
-  const toggle = useCallback(async () => {
+  const play = useCallback(async () => {
     const audio = audioRef.current;
     if (!audio) return;
     setRequested(true);
     window.localStorage.setItem(MUSIC_REQUESTED_KEY, "true");
-
-    if (playing) {
-      audio.pause();
-      setPlaying(false);
-      window.localStorage.setItem(MUSIC_PLAYING_KEY, "false");
-      return;
-    }
 
     try {
       await audio.play();
@@ -52,7 +45,23 @@ export function useBackgroundMusic(volume: number) {
       setPlaying(false);
       window.localStorage.setItem(MUSIC_PLAYING_KEY, "false");
     }
-  }, [playing]);
+  }, []);
 
-  return { requested, playing, toggle };
+  const toggle = useCallback(async () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (playing) {
+      setRequested(true);
+      window.localStorage.setItem(MUSIC_REQUESTED_KEY, "true");
+      audio.pause();
+      setPlaying(false);
+      window.localStorage.setItem(MUSIC_PLAYING_KEY, "false");
+      return;
+    }
+
+    await play();
+  }, [play, playing]);
+
+  return { requested, playing, toggle, play };
 }

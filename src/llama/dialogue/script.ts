@@ -14,11 +14,11 @@ export function createLlamaScript(t: Translation): DialogueScript {
   intro: {
     text: t.dialogue.intro.text,
     choices: [
+      { label: t.dialogue.intro.choices[4], action: "openFreeChat" },
       { label: t.dialogue.intro.choices[0], next: "owner" },
       { label: t.dialogue.intro.choices[1], next: "about" },
       { label: t.dialogue.intro.choices[2], next: "projects" },
       { label: t.dialogue.intro.choices[3], next: "contact" },
-      { label: t.dialogue.intro.choices[4], action: "openFreeChat" },
     ],
   },
 

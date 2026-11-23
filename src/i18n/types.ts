@@ -16,7 +16,10 @@ export type Translation = {
     skipIntro: string;
     freeChat: {
       title: string;
+      description: string;
+      empty: string;
       placeholder: string;
+      keyHint: string;
       send: string;
       sending: string;
       error: string;

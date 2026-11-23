@@ -7,6 +7,7 @@ export type DialogueState = {
   isOpen: boolean;
   /** Moves to the node of a choice, ignores link-only choices. */
   choose: (choice: DialogueChoice) => void;
+  navigate: (nodeId: string) => void;
   close: () => void;
   open: () => void;
 };
@@ -35,8 +36,16 @@ export function useDialogue(
     [script],
   );
 
+  const navigate = useCallback(
+    (targetId: string) => {
+      if (!script[targetId]) return;
+      setNodeId(targetId);
+    },
+    [script],
+  );
+
   const close = useCallback(() => setIsOpen(false), []);
   const open = useCallback(() => setIsOpen(true), []);
 
-  return { nodeId, node, isOpen, choose, close, open };
+  return { nodeId, node, isOpen, choose, navigate, close, open };
 }
