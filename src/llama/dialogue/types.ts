@@ -6,7 +6,7 @@ export type DialogueChoice = {
   /** Opens in a new tab instead of navigating the conversation. */
   href?: string;
   /** Runs a local portfolio action instead of navigating. */
-  action?: "toggleMusic" | "openContactForm";
+  action?: "toggleMusic" | "openContactForm" | "openFreeChat";
 };
 
 /** A single thing the llama says, and the answers it offers. */

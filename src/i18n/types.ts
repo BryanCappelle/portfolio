@@ -14,6 +14,15 @@ export type Translation = {
     stopMusic: string;
     language: string;
     skipIntro: string;
+    freeChat: {
+      title: string;
+      placeholder: string;
+      send: string;
+      sending: string;
+      error: string;
+      back: string;
+      you: string;
+    };
     contactForm: {
       title: string;
       subject: string;

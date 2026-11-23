@@ -33,6 +33,7 @@ export default function LlamaStage() {
 
   const [introFinished, setIntroFinished] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
+  const [freeChatOpen, setFreeChatOpen] = useState(false);
 
   const llamaCurve = useMemo(createLlamaCurve, []);
   const winkCurve = useMemo(createWinkCurve, []);
@@ -69,6 +70,10 @@ export default function LlamaStage() {
     (choice: Parameters<typeof dialogue.choose>[0]) => {
       if (choice.action === "openContactForm") {
         setContactOpen(true);
+        return;
+      }
+      if (choice.action === "openFreeChat") {
+        setFreeChatOpen(true);
         return;
       }
       dialogue.choose(choice);
@@ -117,6 +122,8 @@ export default function LlamaStage() {
         onMusicToggle={music.toggle}
         contactOpen={contactOpen}
         onContactClose={() => setContactOpen(false)}
+        freeChatOpen={freeChatOpen}
+        onFreeChatClose={() => setFreeChatOpen(false)}
       />
 
       {!introFinished && (

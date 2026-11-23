@@ -18,6 +18,7 @@ export function createLlamaScript(t: Translation): DialogueScript {
       { label: t.dialogue.intro.choices[1], next: "about" },
       { label: t.dialogue.intro.choices[2], next: "projects" },
       { label: t.dialogue.intro.choices[3], next: "contact" },
+      { label: t.dialogue.intro.choices[4], action: "openFreeChat" },
     ],
   },
 

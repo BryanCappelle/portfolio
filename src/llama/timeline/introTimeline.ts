@@ -17,7 +17,7 @@ const DRAW_CAMERA_KEYFRAMES = [
 
 /** Camera path that pulls back from the head to frame the whole llama. */
 const REVEAL_CAMERA_KEYFRAMES = [
-  { t: 0, distance: 5.2, azimuth: 0.5, elevation: 0.35 },
+  { t: 0, distance: 5.2, azimuth: 0.5 , elevation: 0.35 },
   { t: 1, distance: 1, azimuth: 0, elevation: 0 },
 ];
 

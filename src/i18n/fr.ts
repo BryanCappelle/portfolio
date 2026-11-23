@@ -14,6 +14,15 @@ export const fr: Translation = {
     stopMusic: "Arrêter la musique",
     language: "Langue",
     skipIntro: "Passer l’introduction",
+    freeChat: {
+      title: "Parler librement",
+      placeholder: "Écris ton message au lama...",
+      send: "Envoyer",
+      sending: "Le lama réfléchit...",
+      error: "Impossible d'obtenir une réponse. Réessaie.",
+      back: "Retour au dialogue",
+      you: "Vous",
+    },
     contactForm: {
       title: "Laisser un message",
       subject: "Motif",
@@ -55,6 +64,7 @@ export const fr: Translation = {
         "Et toi, qui es-tu ?",
         "Montre-moi ses projets",
         "Comment le contacter ?",
+        "Parler librement avec le lama",
       ],
     },
     owner: {

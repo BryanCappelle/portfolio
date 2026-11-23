@@ -7,6 +7,7 @@ import { llama as llamaProfile } from "../dialogue/profile";
 import { ArrowUpRightIcon, CloseIcon } from "./icons";
 import { useI18n } from "../../i18n";
 import ContactForm from "./ContactForm";
+import FreeChat from "./FreeChat";
 
 type Props = {
   /** The floating DOM node, positioned every frame by the 3D scene. */
@@ -21,6 +22,8 @@ type Props = {
   onMusicToggle: () => void;
   contactOpen: boolean;
   onContactClose: () => void;
+  freeChatOpen: boolean;
+  onFreeChatClose: () => void;
 };
 
 /**
@@ -37,6 +40,8 @@ export default function SpeechBubble({
   onMusicToggle,
   contactOpen,
   onContactClose,
+  freeChatOpen,
+  onFreeChatClose,
 }: Props) {
   const { t } = useI18n();
   const { playBlip } = useLlamaVoice(volume);
@@ -61,7 +66,7 @@ export default function SpeechBubble({
   return (
     <div
       ref={bubbleRef}
-      className={`llama-speech-bubble${contactOpen ? " llama-speech-bubble--contact" : ""}`}
+      className={`llama-speech-bubble${contactOpen || freeChatOpen ? " llama-speech-bubble--contact" : ""}${freeChatOpen ? " llama-speech-bubble--free-chat" : ""}`}
       data-visible={visible ? "true" : "false"}
       role="group"
       aria-label={`${t.ui.conversationWith} ${llamaProfile.name}`}
@@ -83,6 +88,8 @@ export default function SpeechBubble({
 
       {contactOpen ? (
         <ContactForm onClose={onContactClose} />
+      ) : freeChatOpen ? (
+        <FreeChat onClose={onFreeChatClose} />
       ) : (
         <p className="llama-speech-bubble__text" onClick={skip}>
         <span aria-hidden="true">
@@ -93,7 +100,7 @@ export default function SpeechBubble({
         </p>
       )}
 
-      {!contactOpen && isComplete && node.choices.length > 0 && (
+      {!contactOpen && !freeChatOpen && isComplete && node.choices.length > 0 && (
         <div className="llama-speech-bubble__choices">
           {node.choices.map((choice) => (
             <ChoiceButton

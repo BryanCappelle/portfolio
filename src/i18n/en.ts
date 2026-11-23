@@ -14,6 +14,15 @@ export const en: Translation = {
     stopMusic: "Stop the music",
     language: "Language",
     skipIntro: "Skip introduction",
+    freeChat: {
+      title: "Free chat",
+      placeholder: "Write a message to the llama...",
+      send: "Send",
+      sending: "The llama is thinking...",
+      error: "Could not get a reply. Please try again.",
+      back: "Back to the dialogue",
+      you: "You",
+    },
     contactForm: {
       title: "Leave a message",
       subject: "Subject",
@@ -55,6 +64,7 @@ export const en: Translation = {
         "Who are you?",
         "Show me their projects",
         "How can I contact him?",
+        "Chat freely with the llama",
       ],
     },
     owner: {
